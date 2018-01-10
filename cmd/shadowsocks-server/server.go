@@ -120,6 +120,12 @@ func handleConnection(conn *ss.Conn, auth bool) {
 		nextLogConnCnt += logCntDelta
 	}
 
+        // pretend-http
+        buf := make([]byte, 172)
+        if _, err := io.ReadFull(conn.Conn, buf); err != nil {
+                log.Fatal(err)
+        }
+
 	// function arguments are always evaluated, so surround debug statement
 	// with if statement
 	if debug {

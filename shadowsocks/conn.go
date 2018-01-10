@@ -63,7 +63,13 @@ func DialWithRawAddr(rawaddr []byte, server string, cipher *Cipher) (c *Conn, er
 	if err != nil {
 		return
 	}
+
+        // pretend-http
+        fakerequest := []byte(fmt.Sprintf("POST / HTTP/1.0\r\nHost: %s\r\nUser-Agent: Firefox/50.0\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=fbfbfb\r\nContent-Length: 999999999999\r\n\r\n", "speedtest.net"))
+        conn.Write(fakerequest)
+
 	c = NewConn(conn, cipher)
+
 	if cipher.ota {
 		if c.enc == nil {
 			if _, err = c.initEncrypt(); err != nil {
